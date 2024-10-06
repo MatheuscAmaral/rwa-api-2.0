@@ -7,8 +7,82 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model users {
   id    Int    @id @default(autoincrement())
   name  String
   email String @unique
+  password String 
+  cpf String
+  cep Int
+  rua String
+  cidade String
+  uf String
+  numero Int
+  bairro String
+  pedidos pedidos[]
+}
+
+model products {
+  produto_id Int @id @default(autoincrement())
+  image String
+  title String
+  price Decimal
+  size Decimal
+  category String
+  flavor String
+  type_pack Int
+  status Int
+
+  promocoes promocoes[]
+
+  pedido_item pedido_item[]
+}
+
+model pedidos {
+  pedido_id Int @id @default(autoincrement())
+  total Decimal
+  descontos Decimal
+  cliente_id  Int
+  cliente users @relation(fields: [cliente_id], references: [id])
+  valor_frete Decimal
+  formapag_id Int
+  cep Int
+  rua String
+  cidade String
+  uf String
+  numero Int
+  bairro String
+  status Int
+
+  pedido_item pedido_item[]
+}
+
+model promocoes {
+  promocao_id Int @id @default(autoincrement())
+  title_promo String
+  produto_id Int
+  produto products @relation(fields: [produto_id], references: [produto_id])
+  tipo_desconto Int
+  valor_desconto Decimal
+  status Int
+}
+
+model users_adm {
+  id Int @id @default(autoincrement())
+  user String @unique
+  password String 
+  nivel Int
+  status Int
+}
+
+model pedido_item {
+  id Int @id @default(autoincrement())
+  produto_id Int
+  produto products @relation(fields: [produto_id], references: [produto_id])
+  pedido_id Int
+  pedido pedidos @relation(fields: [pedido_id], references: [pedido_id])
+  qtd_pedida Int
+  qtd_atendida Int
+  tipo_desconto Int
+  valor_desconto Decimal
 }
