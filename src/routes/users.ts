@@ -27,7 +27,7 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.post('/users', async (request: FastifyRequest, reply: FastifyReply) => {
+    fastify.post('/users/register', async (request: FastifyRequest, reply: FastifyReply) => {
         const data: Data = request.body as Data;
         const password = await bcrypt.hash(data.password, 10);
 
@@ -38,11 +38,11 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
                     email: data.email,
                     password: password,
                     cpf: data.cpf,
-                    cep: data.cep,
+                    cep: Number(data.cep),
                     rua: data.rua,
                     cidade: data.cidade,
                     uf: data.uf,
-                    numero: data.numero,
+                    numero: Number(data.numero),
                     bairro: data.bairro
                 }
             })
@@ -79,6 +79,36 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         } catch (error) {
             console.error(error);
             return reply.status(500).send(error);
+        }
+    });
+
+    fastify.post('/users/verify', async (request: FastifyRequest, reply: FastifyReply) => {
+        const { cpf, email } = request.body as Data;
+
+        try {
+            const userByCpf = await prisma.users.findFirst({
+                where: {
+                    cpf: cpf
+                },
+            });
+            
+            const userByEmail = await prisma.users.findFirst({
+                where: {
+                    email: email
+                },
+            });
+
+            if (userByCpf && userByEmail) {
+                return reply.status(404).send({ error: "O usuário já foi cadastrado!" });
+            } else if (userByCpf) {
+                return reply.status(404).send({ error: "O cpf já foi cadastrado!" });
+            } else if (userByEmail) {
+                return reply.status(404).send({ error: "O e-mail já foi cadastrado!" });
+            }
+
+            reply.status(200).send(false);
+        } catch (error) {
+            reply.status(500).send({ error: error });
         }
     });
 };
