@@ -6,6 +6,7 @@ import statisticsRoutes from "./routes/statistics";
 import cloudinary from '../src/cloudnary'; 
 import multipart from '@fastify/multipart';
 import ordersRoutes from "./routes/orders";
+import paymentMethodsRoutes from "./routes/paymentMethods";
 
 const app = fastify();
 
@@ -21,6 +22,7 @@ app.register(userRoutes);
 app.register(productsRoutes);
 app.register(statisticsRoutes);
 app.register(ordersRoutes);
+app.register(paymentMethodsRoutes);
 
 app.post('/upload', async (request: FastifyRequest, reply: FastifyReply) => {
   const file = await request.file(); 
