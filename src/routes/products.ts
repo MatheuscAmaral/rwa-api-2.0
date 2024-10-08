@@ -9,12 +9,39 @@ interface Data {
     size: number
     category: string
     flavor: string
-    type_pack: number
+    stock: number
+    type_pack: string
     status: number
 }
 
 const productsRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/products', async (request: FastifyRequest, reply: FastifyReply) => {
+        try {
+            const productsWhey = await prisma.products.findMany({
+                where: { category: "1" }
+            });
+
+            const productsCreatina = await prisma.products.findMany({
+                where: { category: "2" }
+            });
+
+            const productsOthers = await prisma.products.findMany({
+                where: { category: "3" }
+            });
+
+            const products = {
+                whey: productsWhey,
+                creatina: productsCreatina,
+                others: productsOthers
+            }
+
+            reply.status(200).send(products);
+        } catch (error) {
+            reply.status(500).send(error);
+        }
+    });
+
+    fastify.get('/products/adm', async (request: FastifyRequest, reply: FastifyReply) => {
         try {
             const products = await prisma.products.findMany();
 
@@ -38,7 +65,21 @@ const productsRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
-    fastify.get('/products/:query', async (request: FastifyRequest, reply: FastifyReply) => {
+    fastify.get('/products/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+        const { id } = request.params as { id: number };
+
+        try {
+            let products = await prisma.products.findUnique({
+                where: { produto_id: Number(id) }
+            });   
+
+            reply.status(200).send(products);
+        } catch (error) {
+            reply.status(500).send(error);
+        }
+    });
+
+    fastify.get('/products/search/:query', async (request: FastifyRequest, reply: FastifyReply) => {
         const { query } = request.params as { query: string };
 
         try {

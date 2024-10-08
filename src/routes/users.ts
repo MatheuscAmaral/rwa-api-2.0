@@ -27,6 +27,22 @@ const userRoutes: FastifyPluginAsync = async (fastify) => {
         }
     });
 
+    fastify.get('/users/:id', async (request: FastifyRequest, reply: FastifyReply) => {
+        const { id } = request.params as { id: number };
+
+        try {
+            const user = await prisma.users.findUnique({
+                where: {
+                    id: Number(id)
+                }
+            });
+
+            reply.status(200).send(user);
+        } catch (error) {
+            reply.status(500).send({ error: error });
+        }
+    });
+
     fastify.post('/users/register', async (request: FastifyRequest, reply: FastifyReply) => {
         const data: Data = request.body as Data;
         const password = await bcrypt.hash(data.password, 10);

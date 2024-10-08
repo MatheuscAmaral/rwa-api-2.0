@@ -24,7 +24,8 @@ CREATE TABLE "products" (
     "size" DECIMAL(65,30) NOT NULL,
     "category" TEXT NOT NULL,
     "flavor" TEXT NOT NULL,
-    "type_pack" INTEGER NOT NULL,
+    "type_pack" TEXT NOT NULL,
+    "stock" INTEGER NOT NULL,
     "status" INTEGER NOT NULL,
 
     CONSTRAINT "products_pkey" PRIMARY KEY ("produto_id")
@@ -87,6 +88,9 @@ CREATE TABLE "pedido_item" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_cpf_key" ON "users"("cpf");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_adm_user_key" ON "users_adm"("user");

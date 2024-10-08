@@ -12,13 +12,14 @@ model users {
   name  String
   email String @unique
   password String 
-  cpf String
+  cpf String @unique
   cep Int
   rua String
   cidade String
   uf String
   numero Int
   bairro String
+  status Int @default(1)
   pedidos pedidos[]
 }
 
@@ -30,7 +31,8 @@ model products {
   size Decimal
   category String
   flavor String
-  type_pack Int
+  type_pack String
+  stock Int
   status Int
 
   promocoes promocoes[]
