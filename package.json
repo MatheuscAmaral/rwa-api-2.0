@@ -4,7 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx ts-node src/server.ts"
+    "dev": "npx ts-node src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsup src && npx prisma generate && next build",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +29,7 @@
     "cloudinary": "^2.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "fastify": "^5.0.0"
+    "fastify": "^5.0.0",
+    "tsup": "^8.3.0"
   }
 }
