@@ -21,6 +21,8 @@ model users {
   bairro String
   status Int @default(1)
   pedidos pedidos[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 
 model products {
@@ -34,9 +36,10 @@ model products {
   type_pack String
   stock Int
   status Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 
   promocoes promocoes[]
-
   pedido_item pedido_item[]
 }
 
@@ -55,6 +58,8 @@ model pedidos {
   numero Int
   bairro String
   status Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 
   pedido_item pedido_item[]
 }
@@ -67,6 +72,8 @@ model promocoes {
   tipo_desconto Int
   valor_desconto Decimal
   status Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 
 model users_adm {
@@ -75,6 +82,8 @@ model users_adm {
   password String 
   nivel Int
   status Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 
 model formas_pagamentos {
@@ -82,6 +91,8 @@ model formas_pagamentos {
   descricao String
   tipo Int
   status Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 
 model pedido_item {
@@ -94,4 +105,6 @@ model pedido_item {
   qtd_atendida Int
   tipo_desconto Int
   valor_desconto Decimal
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
