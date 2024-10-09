@@ -18,15 +18,39 @@ const productsRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.get('/products', async (request: FastifyRequest, reply: FastifyReply) => {
         try {
             const productsWhey = await prisma.products.findMany({
-                where: { category: "1" }
+                where: { category: "1" },
+                orderBy: [
+                    {
+                        stock: "desc"
+                    },
+                    {
+                        title: "asc"
+                    }
+                ]
             });
 
             const productsCreatina = await prisma.products.findMany({
-                where: { category: "2" }
+                where: { category: "2" },
+                orderBy: [
+                    {
+                        stock: "desc"
+                    },
+                    {
+                        title: "asc"
+                    }
+                ]
             });
 
             const productsOthers = await prisma.products.findMany({
-                where: { category: "3" }
+                where: { category: "3" },
+                orderBy: [
+                    {
+                        stock: "desc"
+                    },
+                    {
+                        title: "asc"
+                    }
+                ]
             });
 
             const products = {
@@ -43,7 +67,12 @@ const productsRoutes: FastifyPluginAsync = async (fastify) => {
 
     fastify.get('/products/adm', async (request: FastifyRequest, reply: FastifyReply) => {
         try {
-            const products = await prisma.products.findMany();
+            const products = await prisma.products.findMany({
+                orderBy: [
+                    {stock: "desc"},
+                    {title: "asc"}
+                ]
+            });
 
             reply.status(200).send(products);
         } catch (error) {

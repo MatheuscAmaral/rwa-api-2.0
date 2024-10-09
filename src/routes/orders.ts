@@ -82,6 +82,17 @@ const ordersRoutes: FastifyPluginAsync = async (fastify) => {
                             valor_desconto: Number(data.valor_desconto[key])
                         }
                     });
+
+                    const product = await prisma.products.findUnique({
+                        where: { produto_id: Number(produto_id) }
+                    });
+
+                    await prisma.products.update({
+                        where: { produto_id: Number(produto_id) },
+                        data: {
+                            stock: Number(product?.stock) - Number(data.qtd_atendida)
+                        }
+                    })
                 });
             }
 
