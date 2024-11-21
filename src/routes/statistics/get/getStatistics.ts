@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest, FastifyPluginAsync } from "fastify";
-import prisma from "../db"; 
+import prisma from "../../../../db"; 
 
-const statisticsRoutes: FastifyPluginAsync = async (fastify) => {
+const getStatistics: FastifyPluginAsync = async (fastify) => {
     fastify.get('/statistics', async (request: FastifyRequest, reply: FastifyReply) => {
         try {
             const products = await prisma.products.count();
@@ -17,4 +17,4 @@ const statisticsRoutes: FastifyPluginAsync = async (fastify) => {
     })
 }
 
-export default statisticsRoutes;
+export default getStatistics;
