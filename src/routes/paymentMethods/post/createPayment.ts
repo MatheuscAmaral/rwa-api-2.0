@@ -1,19 +1,13 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
+import { IPaymentMethods } from "../../../interfaces/IPaymentMethods";
 import prisma from "../../../../db";
-
-interface Data {
-    id: number;
-    descricao: string;
-    tipo: number;
-    status: number;
-}
 
 const createPayment: FastifyPluginAsync = async (fastify) => {
     fastify.post('/payments', async (request: FastifyRequest, reply: FastifyReply) => {
-        const data: Data = request.body as Data;
+        const data: IPaymentMethods = request.body as IPaymentMethods;
 
         try {
-            const payments = await prisma.formas_pagamentos.create({
+            const payments = await prisma.payment_methods.create({
                 data: data
             });
 

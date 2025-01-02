@@ -4,7 +4,7 @@ import prisma from "../../../../db";
 const getPayments: FastifyPluginAsync = async (fastify) => {
     fastify.get('/payments', async (request: FastifyRequest, reply: FastifyReply) => {
         try {
-            const payments = await prisma.formas_pagamentos.findMany({
+            const payments = await prisma.payment_methods.findMany({
                 where: { status: 1 }
             });
 

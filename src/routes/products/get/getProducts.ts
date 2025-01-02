@@ -5,7 +5,7 @@ const getProducts: FastifyPluginAsync = async (fastify) => {
     fastify.get('/products', async (request: FastifyRequest, reply: FastifyReply) => {
         try {
             const productsWhey = await prisma.products.findMany({
-                where: { category: "1" },
+                where: { category: "1", status: 1 },
                 orderBy: [
                     {
                         stock: "desc"
@@ -17,7 +17,7 @@ const getProducts: FastifyPluginAsync = async (fastify) => {
             });
 
             const productsCreatina = await prisma.products.findMany({
-                where: { category: "2" },
+                where: { category: "2",  status: 1 },
                 orderBy: [
                     {
                         stock: "desc"
@@ -29,7 +29,7 @@ const getProducts: FastifyPluginAsync = async (fastify) => {
             });
 
             const productsOthers = await prisma.products.findMany({
-                where: { category: "3" },
+                where: { category: "3",  status: 1 },
                 orderBy: [
                     {
                         stock: "desc"

@@ -1,22 +1,10 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
+import { IProducts } from "../../../interfaces/IProducts";
 import prisma from "../../../../db";
-
-interface Data {
-    produto_id: number
-    image: string
-    title: string
-    price: number
-    size: number
-    category: string
-    flavor: string
-    stock: number
-    type_pack: string
-    status: number
-}
 
 const createProduct: FastifyPluginAsync = async (fastify) => {
     fastify.post('/products', async (request: FastifyRequest, reply: FastifyReply) => {
-        const data: Data = request.body as Data;
+        const data: IProducts = request.body as IProducts;
         
         try {
             const products = await prisma.products.create({

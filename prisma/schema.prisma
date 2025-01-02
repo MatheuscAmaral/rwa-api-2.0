@@ -13,20 +13,20 @@ model users {
   email String @unique
   password String 
   cpf String @unique
-  cep Int
-  rua String
-  cidade String
+  zip_code Int
+  street String
+  city String
   uf String
-  numero Int
-  bairro String
+  number Int
+  neighborhood String
   status Int @default(1)
-  pedidos pedidos[]
+  orders orders[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }
 
 model products {
-  produto_id Int @id @default(autoincrement())
+  product_id Int @id @default(autoincrement())
   image String
   title String
   price Decimal
@@ -39,38 +39,38 @@ model products {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 
-  promocoes promocoes[]
-  pedido_item pedido_item[]
+  promotions promotions[]
+  items_orders items_orders[]
 }
 
-model pedidos {
-  pedido_id Int @id @default(autoincrement())
+model orders {
+  order_id Int @id @default(autoincrement())
   total Decimal
-  descontos Decimal
-  cliente_id  Int
-  cliente users @relation(fields: [cliente_id], references: [id])
-  valor_frete Decimal
-  formapag_id Int
-  cep Int
-  rua String
-  cidade String
+  discounts Decimal
+  client_id  Int
+  client users @relation(fields: [client_id], references: [id])
+  shipping_cost Decimal
+  payment_method Int
+  zip_code Int
+  street String
+  city String
   uf String
-  numero Int
-  bairro String
+  number Int
+  neighborhood String
   status Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 
-  pedido_item pedido_item[]
+  items_orders items_orders[]
 }
 
-model promocoes {
-  promocao_id Int @id @default(autoincrement())
-  title_promo String
-  produto_id Int
-  produto products @relation(fields: [produto_id], references: [produto_id])
-  tipo_desconto Int
-  valor_desconto Decimal
+model promotions {
+  promotion_id Int @id @default(autoincrement())
+  title String
+  product_id Int
+  product products @relation(fields: [product_id], references: [product_id])
+  discount_type Int
+  discount_value Decimal
   status Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
@@ -80,31 +80,39 @@ model users_adm {
   id Int @id @default(autoincrement())
   user String @unique
   password String 
-  nivel Int
+  level Int
   status Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }
 
-model formas_pagamentos {
+model payment_methods {
   id Int @id @default(autoincrement())
-  descricao String
-  tipo Int
+  description String
+  type Int
   status Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }
 
-model pedido_item {
+model items_orders {
   id Int @id @default(autoincrement())
-  produto_id Int
-  produto products @relation(fields: [produto_id], references: [produto_id])
-  pedido_id Int
-  pedido pedidos @relation(fields: [pedido_id], references: [pedido_id])
-  qtd_pedida Int
-  qtd_atendida Int
-  tipo_desconto Int
-  valor_desconto Decimal
+  product_id Int
+  product products @relation(fields: [product_id], references: [product_id])
+  order_id Int
+  order orders @relation(fields: [order_id], references: [order_id])
+  quantity_ordered Int
+  quantity_served Int
+  discount_type Int
+  discount_value Decimal
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+}
+
+model gateways {
+  id Int @id @default(autoincrement())
+  description String 
+  status Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }

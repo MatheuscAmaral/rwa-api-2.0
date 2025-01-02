@@ -7,7 +7,7 @@ const getProduct: FastifyPluginAsync = async (fastify) => {
 
         try {
             let products = await prisma.products.findUnique({
-                where: { produto_id: Number(id) }
+                where: { product_id: Number(id) }
             });   
 
             reply.status(200).send(products);

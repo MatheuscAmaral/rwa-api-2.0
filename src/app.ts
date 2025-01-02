@@ -4,8 +4,8 @@ import { registerRoutes } from "./routes";
 
 const buildApp = () => {
     const app = fastify();
-    app.register(registerPlugins);
-    app.register(registerRoutes);
+    registerPlugins(app);
+    registerRoutes(app);
 
     return app;
 }

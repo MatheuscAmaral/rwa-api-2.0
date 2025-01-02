@@ -8,16 +8,15 @@ const getItemsOrder: FastifyPluginAsync = async (fastify) => {
         try {
             const orders = await prisma.$queryRawUnsafe(`
                 SELECT 
-                    pi.id, pi.produto_id, pi.pedido_id, pi.qtd_pedida, pi.qtd_atendida, pi.tipo_desconto, pi.valor_desconto, 
+                    pi.id, pi.product_id, pi.order_id, pi.quantity_ordered, pi.quantity_served, pi.discount_type, pi.discount_value, 
                     pi."createdAt", pi."updatedAt", p.image, p.title, p.price, p.size, p.category, p.flavor, p.type_pack, p.stock
                 FROM 
-                    pedido_item pi
+                    items_orders pi
                 INNER JOIN 
-                    products p ON p.produto_id = pi.produto_id
+                    products p ON p.product_id = pi.product_id
                 WHERE 
-                    pi.pedido_id = ${Number(id)}
+                    pi.order_id = ${Number(id)}
             `);
-            
 
             reply.status(200).send(orders);
         } catch (error) {

@@ -1,72 +1,52 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
+import { IOrders } from "../../../interfaces/IOrders";
 import prisma from "../../../../db";
-import { ItemsProps } from "../../../interfaces/itemsProps";
 
-interface Data {
-    qtd_pedida: [];
-    qtd_atendida: [];
-    tipo_desconto: [];
-    valor_desconto: [];
-    pedido_id: number;
-    total: number;
-    descontos: number;
-    cliente_id : number;
-    valor_frete: number;
-    formapag_id: number;
-    cep: number;
-    rua: string;
-    cidade: string;
-    uf: string;
-    numero: string;
-    bairro: string;
-    status: number;
-    produto_id: ItemsProps[]
-}
 const createOrder: FastifyPluginAsync = async (fastify) => {
     fastify.post('/orders', async (request: FastifyRequest, reply: FastifyReply) => {
-        const data: Data = request.body as Data;
+        const data: IOrders = request.body as IOrders;
         
         try {
-            const order = await prisma.pedidos.create({
+            const order = await prisma.orders.create({
                 data: {
                     total: data.total,
-                    descontos: data.descontos,
-                    cliente_id: data.cliente_id,
-                    valor_frete: data.valor_frete,
-                    formapag_id: Number(data.formapag_id),
-                    cep: data.cep,
-                    rua: data.rua,
-                    cidade: data.cidade,
+                    discounts: data.discounts,
+                    client_id: data.clientId,
+                    shipping_cost: data.shippingCost,
+                    payment_method: Number(data.paymentMethod),
+                    zip_code: data.zipCode,
+                    street: data.street,
+                    city: data.city,
                     uf: data.uf,
-                    numero: Number(data.numero),
-                    bairro: data.bairro,
+                    number: Number(data.number),
+                    neighborhood: data.neighborhood,
                     status: Number(data.status)
                 }
             });
 
-            const id = order.pedido_id;
+            const id = order.order_id;
 
-            if (data && Array.isArray(data.produto_id) && data.produto_id.length > 0) {
-                data.produto_id.map(async (produto_id, key: number) => {
-                    await prisma.pedido_item.create({
+            if (data && Array.isArray(data.productId) && data.productId.length > 0) {
+                data.productId.map(async (productId, key: number) => {
+                    await prisma.items_orders.create({
                         data: {
-                            pedido_id: Number(id), 
-                            produto_id: Number(produto_id), 
-                            qtd_pedida: Number(data.qtd_pedida[key]),
-                            qtd_atendida: Number(data.qtd_atendida[key]), 
-                            tipo_desconto: Number(data.tipo_desconto[key]),
-                            valor_desconto: Number(data.valor_desconto[key])
+                            order_id: Number(id), 
+                            product_id: Number(productId), 
+                            quantity_ordered: Number(data.quantityOrdered[key]),
+                            quantity_served: Number(data.quantityServed[key]), 
+                            discount_type: Number(data.discountType[key]),
+                            discount_value: Number(data.discountValue[key])
                         }
                     });
 
                     const product = await prisma.products.findUnique({
-                        where: { produto_id: Number(produto_id) }
+                        where: { product_id: Number(productId) }
                     });
 
                     await prisma.products.update({
-                        where: { produto_id: Number(produto_id) },
+                        where: { product_id: Number(productId) },
                         data: {
-                            stock: Number(product?.stock) - Number(data.qtd_atendida)
+                            stock: Number(product?.stock) - Number(data.quantityServed)
                         }
                     })
                 });

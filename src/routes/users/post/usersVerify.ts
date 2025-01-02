@@ -1,25 +1,10 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
+import { IUser } from "../../../interfaces/IUser";
 import prisma from "../../../../db";
-
-interface Data {
-    id: number
-    name: string
-    email: string
-    user: string;
-    password: string 
-    cpf: string
-    cep: number
-    rua: string
-    cidade: string
-    uf: string
-    numero: number
-    bairro: string
-    old_password: string
-}
 
 const usersVerify: FastifyPluginAsync = async (fastify) => {
     fastify.post('/users/verify', async (request: FastifyRequest, reply: FastifyReply) => {
-        const { cpf, email } = request.body as Data;
+        const { cpf, email } = request.body as IUser;
 
         try {
             const userByCpf = await prisma.users.findFirst({
