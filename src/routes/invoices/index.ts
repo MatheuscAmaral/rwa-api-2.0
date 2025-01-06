@@ -1,10 +1,10 @@
 import { FastifyPluginAsync } from "fastify";
 import getInvoice from "./get/getInvoice";
-import getInvoices from "./get/getInvoices";
+import deleteInvoice from "./delete/deleteInvoice";
 
 const invoicesRoutes: FastifyPluginAsync = async (fastify) => {
-  fastify.register(getInvoice);
-  fastify.register(getInvoices);
+    fastify.register(getInvoice);
+    fastify.register(deleteInvoice);
 }
 
 export default invoicesRoutes;

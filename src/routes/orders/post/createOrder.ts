@@ -43,12 +43,12 @@ const createOrder: FastifyPluginAsync = async (fastify) => {
                         where: { product_id: Number(productId) }
                     });
 
-                    await prisma.products.update({
-                        where: { product_id: Number(productId) },
-                        data: {
-                            stock: Number(product?.stock) - Number(data.quantityServed)
-                        }
-                    })
+                    // await prisma.products.update({
+                    //     where: { product_id: Number(productId) },
+                    //     data: {
+                    //       stock: Number(product?.stock ?? 0) - Number(data.quantityServed ?? 0),
+                    //     },
+                    // });
                 });
             }
 

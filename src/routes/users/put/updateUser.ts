@@ -1,7 +1,6 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from "fastify";
 import { IUser } from "../../../interfaces/IUser";
 import prisma from "../../../../db";
-import bcrypt from "bcryptjs";
 
 const updateUser: FastifyPluginAsync = async (fastify) => {
     fastify.put('/users/:id', async (request: FastifyRequest, reply: FastifyReply) => {

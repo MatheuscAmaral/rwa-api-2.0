@@ -13,4 +13,4 @@ const getGateways: FastifyPluginAsync = async (fastify) => {
     });
 }
 
-export default getGateways;
+export default getGateways; 

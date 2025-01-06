@@ -9,6 +9,7 @@ export interface IUser {
   street: string
   city: string
   uf: string
+  customer_id: string | null
   number: number
   neighborhood: string
   old_password: string

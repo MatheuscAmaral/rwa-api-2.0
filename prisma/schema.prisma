@@ -19,6 +19,7 @@ model users {
   uf String
   number Int
   neighborhood String
+  customer_id String? @unique
   status Int @default(1)
   orders orders[]
   createdAt DateTime @default(now())
@@ -56,11 +57,11 @@ model orders {
   city String
   uf String
   number Int
+  invoice_id String? @unique
   neighborhood String
   status Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-
   items_orders items_orders[]
 }
 
