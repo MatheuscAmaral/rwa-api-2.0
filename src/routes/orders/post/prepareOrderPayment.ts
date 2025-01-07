@@ -58,6 +58,7 @@ const prepareOrderPayment: FastifyPluginAsync = async (fastify) => {
           billingType: billingType,
           value: data.total,
           dueDate: formattedToday,
+          ...(data.installmentValue && { installmentValue: data.installmentValue }),
           callback: {
             successUrl: 'https://rwasuplementos.com/pedidos'
           }

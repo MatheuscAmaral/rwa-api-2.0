@@ -8,6 +8,7 @@ import updateOrder from "./update/updateOrder";
 import prepareOrderPayment from "./post/prepareOrderPayment";
 import updateInvoiceIdOrder from "./update/updateInvoiceIdOrder";
 import updateStatusOrder from "./update/updateStatusOrder";
+import deleteOrder from "./delete/deleteOrder";
 
 const ordersRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.register(getOrder);
@@ -18,6 +19,7 @@ const ordersRoutes: FastifyPluginAsync = async (fastify) => {
     fastify.register(updateOrder);
     fastify.register(updateInvoiceIdOrder);
     fastify.register(updateStatusOrder);
+    fastify.register(deleteOrder);
     fastify.register(prepareOrderPayment);
 }
 
